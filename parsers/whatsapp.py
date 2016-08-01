@@ -20,7 +20,7 @@ class ParserWhatsapp():
             raw_date, sep, time = msg_date.partition(" ")
             sender, sep, content = msg.partition(": ")
             # This ignores a minority of bad formatted lines.
-            if len(raw_date) != 10 or len(time) != 8:
+            if len(raw_date) != 8 or len(time) != 8:
                 continue
             raw_date = raw_date.replace(",", "")
             year = raw_date.split(" ")[0].split("/")[-1]
@@ -37,10 +37,9 @@ class ParserWhatsapp():
                     msg_date, "%m/%d/%y, %I:%M:%S %p")
             else:
                 if len(year) == 2:
-                    datetime_obj = datetime.strptime(msg_date, "%m/%d/%y %H:%M:%S")
+                    datetime_obj = datetime.strptime(msg_date, "%d/%m/%y %H:%M:%S")
                 else:
                     datetime_obj = datetime.strptime(msg_date, "%m/%d/%Y %H:%M:%S")
-
             set_of_senders.add(sender)
             list_of_messages.append(message.Message(sender, content, raw_date, time, datetime_obj))
 
